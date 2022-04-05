@@ -16,6 +16,9 @@ app.use(morgan('dev'));
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
 
+app.use(require('./src/view/index'));
+app.all('*', require('./src/routes/index'));
+
 app.get('/', (req, res) => {
     return res.status(200).json({ OK: 'API is running successfully' });
 })

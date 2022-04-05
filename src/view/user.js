@@ -21,8 +21,8 @@ error = (res) => {
 }
 
 one = (user) => {
-    const { _id: id, name, email, password } = user;
-    return { id, name, email, password }
+    const { _id: id, name, email } = user;
+    return { id, name, email }
 }
 
 many = (result) => {

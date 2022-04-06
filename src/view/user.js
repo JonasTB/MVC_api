@@ -2,13 +2,13 @@ error = (res) => {
     return (err) => {
         if(err.myerror) {
             if(err.myerror === 'email already registered') {
-                res.status(400),json({ message: 'Email already in use' });
+                res.status(409).json({ message: 'email already in use' });
             } else if(err.myerror === 'wrong password') {
-                res.status(401).json({ message: 'Password is incorrect' });
+                res.status(401).json({ message: 'password is incorrect' });
             } else if(err.myerror === 'error in request') {
                 res.status(400).json({ message: 'parameters incomplete' });
             } else if(err.myerror === 'account not found') {
-                res.status(404).json({ message: 'Account not found' });
+                res.status(404).json({ message: 'account not found' });
             }
         } else if(err.errors) {
             let keys = Object.keys(err.errors);
@@ -38,12 +38,12 @@ updated = (option) => {
 }
 
 deleted = (user) => {
-    return { message: 'User deleting successfully', user_deleted: user }
+    return { message: 'User deleting successfully' }
 }
 
 module.exports = (req, res, next) => {
     res.users = {
-        created: (user, message) => res.status(201).json(one(user, message)),
+        create: (user, message) => res.status(201).json(one(user, message)),
         login: (result) => res.status(200).json(login(result)),
         getOne: (user) => res.status(200).json(one(user)),
         getMany: (data) => res.status(200).json(many(data)),

@@ -33,8 +33,8 @@ login = (result) => {
     return { user: one(result.user), token: result.token }
 }
 
-updated = (option) => {
-    if(option === 'password') return { message: 'Password changed successfully' }
+updated = (user) => {
+    return { message: 'Password changed successfully', user: user }
 }
 
 deleted = (user) => {
@@ -47,7 +47,7 @@ module.exports = (req, res, next) => {
         login: (result) => res.status(200).json(login(result)),
         getOne: (user) => res.status(200).json(one(user)),
         getMany: (data) => res.status(200).json(many(data)),
-        updated: (option) => res.status(200).json(updated(option)),
+        updated: (user) => res.status(200).json(updated(user)),
         deleted: (user) => res.status(200).json(deleted(user)),
         error: error(res)
     }

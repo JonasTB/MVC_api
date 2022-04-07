@@ -22,10 +22,13 @@ module.exports = {
     },
 
     update: async(req, res) => {
-        await User.findById({ _id: req.params.id }, { password: req.body.password }, { new: true }).then((updated) => {
-            if(!update) return res.users.error({ 'myerror': 'account not found' });
-            return res.users.upated(updated);
-        }).catch(res.users.error);
+        await User.findByIdAndUpdate({ _id: req.params.id }, { password: req.body.password }, { new: true }).then((user) => {
+            if(!user) return res.users.error({ 'myerror': 'account not found' });
+            return res.users.updated(user);
+        }).catch((err) => {
+            console.log(err);
+            return res.users.error;
+        });
     },
 
     delete: async(req, res) => {

@@ -33,18 +33,16 @@ const UserSchema = new mongoose.Schema({
 UserSchema.pre('save', async function(next) {
     if(this.password) {
         const hash = await bcrypt.hash(this.password, 10);
-        this.password = hash;
+        return this.password = hash;
     }
     next();
 });
 
-UserSchema.pre('updateOne', async function(next) {
-    let user = this._update;
-    if(admin.password) {
-        const hash = await bcrypt.hash(this.password, 10);
-        user.password = hash;
+UserSchema.pre("findOneAndUpdate", async function(next){
+    if(this._update.password){
+        this._update.password = await bcrypt.hash(this._update.password, 10)
     }
     next();
-});
+})
 
 module.exports = mongoose.model('User', UserSchema);
